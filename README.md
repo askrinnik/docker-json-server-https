@@ -146,3 +146,16 @@ And the `statics.json` file will be like this:
   }
 ]
 ```
+
+## Use a production certificate
+The image uses the self-signed certificate. It is represented as `server-key.pem` and `server-cert.pem` files in a `data` folder. But there is an ability to replace it with your production certificate. 
+
+If you have a PFX file, it should be [converted to `key` and `cert` files with the openssl tool](https://www.bluelabellabs.com/blog/how-to-export-certificates-from-windows-for-use-in-apache-nginx-on-linux/). 
+Then the files should be bound to a container.
+
+```
+docker run -d -p 8443:8000 \
+  -v $PWD/examples/rewrite/server.key:/data/server-key.pem \
+  -v $PWD/examples/rewrite/cert.pem:/data/server-cert.pem \
+  fabriciomendonca/json-server-https
+```
